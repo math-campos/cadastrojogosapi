@@ -1,27 +1,27 @@
 const { Router } = require('express');
 
-const controlePredios = require('./controladores/predios');
-const controleSalas = require("./controladores/salas");
+const controleProdutoras = require('./controladores/produtoras');
+const controleJogos = require("./controladores/jogos");
 
 const rotas = new Router();
 
-rotas.route('/salas')
-   .get(controleSalas.getSalas)
-   .post(controleSalas.addSala)
-   .put(controleSalas.updateSala)
+rotas.route('/jogos')
+   .get(controleJogos.getJogos)
+   .post(controleJogos.addJogo)
+   .put(controleJogos.updateJogo)
 
-rotas.route('/salas/:codigo')
-   .get(controleSalas.getSalaPorCodigo)
-   .delete(controleSalas.deleteSala)
+rotas.route('/jogos/:codigo')
+   .get(controleJogos.getJogoPorCodigo)
+   .delete(controleJogos.deleteJogo)
 
 
-rotas.route('/predios')
-     .get(controlePredios.getPredios)
-     .post(controlePredios.addPredio)
-     .put(controlePredios.updatePredio)
+rotas.route('/produtoras')
+     .get(controleProdutoras.getProdutoras)
+     .post(controleProdutoras.addProdutora)
+     .put(controleProdutoras.updateProdutora)
 
-rotas.route('/predios/:codigo')
-     .get(controlePredios.getPredioPorCodigo)
-     .delete(controlePredios.deletePredio)
+rotas.route('/produtoras/:codigo')
+     .get(controleProdutoras.getProdutoraPorCodigo)
+     .delete(controleProdutoras.deleteProdutora)
 
 module.exports = rotas;

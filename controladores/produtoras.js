@@ -1,13 +1,13 @@
 const {pool} = require('../config');
 
-const getPredios = (request, response) => {
-    pool.query('SELECT * FROM predios order by codigo',
+const getProdutoras = (request, response) => {
+    pool.query('SELECT * FROM produtora order by codigo',
         (error, results) => {
             if (error){
                 return response.status(400).json(
                     {
                         status : 'error', 
-                        message : 'Erro ao consultar o prédio: ' + error
+                        message : 'Erro ao consultar produtora: ' + error
                     }
                 );
             }
@@ -17,71 +17,71 @@ const getPredios = (request, response) => {
 }
 
 
-const addPredio = (request, response) => {
+const addProdutora = (request, response) => {
     const {nome, descricao, sigla} = request.body;
-    pool.query(`INSERT INTO predios (nome, descricao, sigla) 
-    values ($1, $2, $3) returning codigo, nome, descricao, sigla`,
+    pool.query(`INSERT INTO produtora (nome, descricao) 
+    values ($1, $2, $3) returning codigo, nome, descricao`,
     [nome, descricao, sigla],
     (error, results) => {
         if (error){
             return response.status(400).json({
                 status : 'error', 
-                message : 'Erro ao inserir o prédio: ' + error
+                message : 'Erro ao inserir o produtora: ' + error
             })
         }
         response.status(200).json({
-            status : "success" , message : "Prédio criado",
+            status : "success" , message : "Produtora criada",
             objeto: results.rows[0]
         })
     })
 }
 
-const updatePredio = (request, response) => {
+const updateProdutora = (request, response) => {
     const {codigo, nome, descricao, sigla} = request.body;
-    pool.query(`UPDATE predios SET nome=$1, descricao=$2, sigla=$3
-    where codigo=$4 returning codigo, nome, descricao, sigla`,
-    [nome, descricao, sigla, codigo],
+    pool.query(`UPDATE produtora SET nome=$1, descricao=$2
+    where codigo=$4 returning codigo, nome, descricao`,
+    [nome, descricao, codigo],
     (error, results) => {
         if (error){
             return response.status(400).json({
                 status : 'error', 
-                message : 'Erro ao alterar o prédio: ' + error
+                message : 'Erro ao alterar produtora: ' + error
             })
         }
         response.status(200).json({
-            status : "success" , message : "Prédio alterado",
+            status : "success" , message : "Produtora alterada",
             objeto: results.rows[0]
         })
     })
 }
 
-const deletePredio = (request, response) => {
+const deleteProdutora = (request, response) => {
     const codigo = parseInt(request.params.codigo);
-    pool.query(`DELETE FROM predios WHERE codigo = $1`,
+    pool.query(`DELETE FROM produtora WHERE codigo = $1`,
     [codigo],
     (error, results) => {
         if (error || results.rowCount == 0){
             return response.status(400).json({
                 status : 'error', 
-                message : 'Erro ao remover o prédio: ' + 
+                message : 'Erro ao remover produtora: ' + 
                 (error ? error :'Não removeu nenhuma linha')
             })
         }
         response.status(200).json({
-            status : "success" , message : "Prédio removido"
+            status : "success" , message : "Produtora removida"
         })
     })
 }
 
-const getPredioPorCodigo = (request, response) => {
+const getProdutoraPorCodigo = (request, response) => {
     const codigo = parseInt(request.params.codigo);
-    pool.query(`SELECT * FROM predios WHERE codigo = $1`,
+    pool.query(`SELECT * FROM produtora WHERE codigo = $1`,
     [codigo],
     (error, results) => {
         if (error || results.rowCount == 0){
             return response.status(400).json({
                 status : 'error', 
-                message : 'Erro ao recuperar o prédio: ' + 
+                message : 'Erro ao recuperar produtora: ' + 
                 (error ? error :'Não encontrou nenhuma linha')
             })
         }
@@ -90,6 +90,6 @@ const getPredioPorCodigo = (request, response) => {
 }
 
 module.exports = {
-    getPredios, addPredio, updatePredio, deletePredio, getPredioPorCodigo
+    getProdutoras, addProdutora, updateProdutora, deleteProdutora, getProdutoraPorCodigo
 }
 
