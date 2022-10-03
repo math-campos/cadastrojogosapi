@@ -16,12 +16,11 @@ const getProdutoras = (request, response) => {
     )
 }
 
-
 const addProdutora = (request, response) => {
-    const {nome, descricao, sigla} = request.body;
+    const {nome, descricao} = request.body;
     pool.query(`INSERT INTO produtora (nome, descricao) 
-    values ($1, $2, $3) returning codigo, nome, descricao`,
-    [nome, descricao, sigla],
+    values ($1, $2) returning codigo, nome, descricao`,
+    [nome, descricao],
     (error, results) => {
         if (error){
             return response.status(400).json({
@@ -37,9 +36,9 @@ const addProdutora = (request, response) => {
 }
 
 const updateProdutora = (request, response) => {
-    const {codigo, nome, descricao, sigla} = request.body;
+    const {codigo, nome, descricao} = request.body;
     pool.query(`UPDATE produtora SET nome=$1, descricao=$2
-    where codigo=$4 returning codigo, nome, descricao`,
+    where codigo=$3 returning codigo, nome, descricao`,
     [nome, descricao, codigo],
     (error, results) => {
         if (error){

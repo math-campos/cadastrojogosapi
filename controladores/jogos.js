@@ -4,7 +4,7 @@ const getJogos = (request, response) => {
     pool.query(`select j.codigo as codigo, j.nome as nome, 
         j.descricao as descricao, j.estrelas as estrelas, 
         j.produtora as produtora
-        from jogos j
+        from jogo j
         join produtora p on j.produtora = p.codigo
         order by j.codigo`, 
     (error, results) => {
