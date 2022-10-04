@@ -19,7 +19,7 @@ const getJogos = (request, response) => {
 }
 
 const addJogo = (request, response) => {
-    const {numero, descricao, capacidade, predio} = request.body;
+    const {nome, descricao, estrelas, produtora} = request.body;
     pool.query(`insert into jogo (nome, descricao, estrelas, produtora) 
     values ($1, $2, $3, $4)
     returning codigo, nome, descricao, estrelas, produtora`, 
