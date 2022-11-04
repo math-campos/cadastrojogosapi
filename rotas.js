@@ -2,26 +2,30 @@ const { Router } = require('express');
 
 const controleProdutoras = require('./controladores/produtoras');
 const controleJogos = require("./controladores/jogos");
+const seguranca = require('./controladores/seguranca');
 
 const rotas = new Router();
 
+rotas.route("/login")
+     .post(seguranca.login)
+
 rotas.route('/jogos')
-   .get(controleJogos.getJogos)
-   .post(controleJogos.addJogo)
-   .put(controleJogos.updateJogo)
+   .get(seguranca.verificaJWT, controleJogos.getJogos)
+   .post(seguranca.verificaJWT, controleJogos.addJogo)
+   .put(seguranca.verificaJWT, controleJogos.updateJogo)
 
 rotas.route('/jogos/:codigo')
-   .get(controleJogos.getJogoPorCodigo)
-   .delete(controleJogos.deleteJogo)
+   .get(seguranca.verificaJWT, controleJogos.getJogoPorCodigo)
+   .delete(seguranca.verificaJWT, controleJogos.deleteJogo)
 
 
 rotas.route('/produtoras')
-     .get(controleProdutoras.getProdutoras)
-     .post(controleProdutoras.addProdutora)
-     .put(controleProdutoras.updateProdutora)
+     .get(seguranca.verificaJWT, controleProdutoras.getProdutoras)
+     .post(seguranca.verificaJWT, controleProdutoras.addProdutora)
+     .put(seguranca.verificaJWT, controleProdutoras.updateProdutora)
 
 rotas.route('/produtoras/:codigo')
-     .get(controleProdutoras.getProdutoraPorCodigo)
-     .delete(controleProdutoras.deleteProdutora)
+     .get(seguranca.verificaJWT, controleProdutoras.getProdutoraPorCodigo)
+     .delete(seguranca.verificaJWT, controleProdutoras.deleteProdutora)
 
 module.exports = rotas;
